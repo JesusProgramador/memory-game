@@ -3,6 +3,7 @@ const NewUser = ({ setNewUserName, handleSaveName, inputRef }) => {
 
   return (
     <div className="flex flex-col mt-6">
+      <p className="text-center mb-4">Para iniciar el juego primero debes de ingresar un nombre</p>
       <div className="flex justify-center  rounded-lg shadow-sm">
         <input
           ref={inputRef}

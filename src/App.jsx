@@ -56,16 +56,6 @@ const App = () => {
     <>
       <div className="bg-slate-800 w-100 min-h-screen p-4 text-white">
         <h1 className="text-3xl font-bold underline">Hola bienvenido</h1>
-        {!userName && (
-          <>
-            <h2>Para comenzar primero debes de ingresar tu nombre</h2>
-            <NewUser
-              inputRef={inputRef}
-              setNewUserName={setNewUserName}
-              handleSaveName={handleSaveName}
-            />
-          </>
-        )}
 
         {userName && !isNewUser ? (
           <CardBoard userName={userName} />

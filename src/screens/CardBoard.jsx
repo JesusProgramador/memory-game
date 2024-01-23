@@ -155,7 +155,7 @@ const CardBoard = ({ userName }) => {
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white p-8 rounded-lg shadow-lg text-center">
             <h2 className="text-xl text-gray-700 font-bold mb-4">
-              JUEGO FINALIZADO
+              {`LO HAS CONSEGUIDO ${userName.toUpperCase()}`}
             </h2>
 
             <p className="text-gray-700 mb-4">
