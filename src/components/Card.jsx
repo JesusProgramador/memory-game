@@ -12,7 +12,7 @@ const Card = ({ name, textHelper, icon, count }) => {
               {name.toUpperCase()}
             </h3>
             <p className="text-sm text-gray-500">
-              <span className="font-bold mr-1 text-green-400">{count}</span>
+              <span className="font-bold mr-1 text-base text-white">{count}</span>
               {`${textHelper}`}
               </p>
           </div>
