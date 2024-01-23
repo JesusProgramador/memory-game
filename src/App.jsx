@@ -1,27 +1,27 @@
 import { useEffect, useState, useRef } from "react";
-import { FaCheck, FaUser, FaXmark } from "react-icons/fa6";
+import CardBoard from "./screens/CardBoard";
 import "./App.css";
-import Card from "./components/Card";
+import NewUser from "./screens/NewUser";
 
 const App = () => {
   const [userName, setUserName] = useState(null);
   const [newUserName, setNewUserName] = useState("");
+  const [isNewUser, setIsNewUser] = useState(false);
   const [isFirstModalOpen, setFirstModalOpen] = useState(false);
   const [isSecondModalOpen, setSecondModalOpen] = useState(false);
-  const [showInput, setShowInput] = useState(false);
+
   const inputRef = useRef(null);
 
   useEffect(() => {
     const storedName = localStorage.getItem("userName");
     if (storedName) {
       setFirstModalOpen(true);
-      setShowInput(false);
       setUserName(storedName?.trim());
     }
   }, []);
 
   const askForNewName = () => {
-    setShowInput(true);
+    setIsNewUser(true);
     setFirstModalOpen(false);
     setTimeout(() => {
       inputRef.current.focus();
@@ -34,54 +34,50 @@ const App = () => {
     } else {
       localStorage.setItem("userName", userName?.trim());
       setFirstModalOpen(false);
-      setShowInput(false);
+      setIsNewUser(false);
     }
   };
 
   const confirmSave = () => {
-    const newUser = localStorage.setItem("userName", newUserName?.trim());
+    const newUser = newUserName?.trim();
+    localStorage.setItem("userName", newUser);
     setUserName(newUser);
     setSecondModalOpen(false);
-    setShowInput(false);
+    setIsNewUser(false);
   };
 
   const cancelSave = () => {
     setNewUserName(userName?.trim());
     setSecondModalOpen(false);
-    setShowInput(false);
+    setIsNewUser(false);
   };
+
   return (
     <>
       <div className="bg-slate-800 w-100 min-h-screen p-4 text-white">
         <h1 className="text-3xl font-bold underline">Hola bienvenido</h1>
-        <h2>Para comenzar primero debes de ingresar tu nombre de usuario</h2>
+        {!userName && (
+          <>
+            <h2>Para comenzar primero debes de ingresar tu nombre</h2>
+            <NewUser
+              inputRef={inputRef}
+              setNewUserName={setNewUserName}
+              handleSaveName={handleSaveName}
+            />
+          </>
+        )}
 
-        {showInput ||
-          (!userName && (
-            <div className="flex flex-col">
-              <div className="flex justify-center  rounded-lg shadow-sm">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  id="hs-trailing-button-add-on-multiple-add-ons"
-                  name="hs-trailing-button-add-on-multiple-add-ons"
-                  className="py-3 px-4 block w-1/2 border-gray-200 shadow-sm rounded-s-md text-sm focus:border-blue-500 focus:z-10 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                  onChange={(e) => setNewUserName(e.target.value)}
-                  placeholder="Tu nombre"
-                />
+        {userName && !isNewUser ? (
+          <CardBoard userName={userName} />
+        ) : (
+          <NewUser
+            inputRef={inputRef}
+            setNewUserName={setNewUserName}
+            handleSaveName={handleSaveName}
+          />
+        )}
 
-                <button
-                  type="button"
-                  className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-e-md border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                  onClick={handleSaveName}
-                >
-                  Guardar
-                </button>
-              </div>
-            </div>
-          ))}
-
-        {/* First Modal */}
+        {/* Modal */}
         {isFirstModalOpen && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-white p-8 rounded-lg shadow-lg text-center">
@@ -92,7 +88,6 @@ const App = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded-md mr-2"
                   onClick={() => {
                     setFirstModalOpen(false);
-                    setShowInput(false);
                   }}
                 >
                   Continuar sesión
@@ -108,7 +103,7 @@ const App = () => {
           </div>
         )}
 
-        {/* Second Modal */}
+        {/* Modal */}
         {isSecondModalOpen && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-white p-8 rounded-lg shadow-lg text-center">
@@ -130,30 +125,6 @@ const App = () => {
                   Cancelar
                 </button>
               </div>
-            </div>
-          </div>
-        )}
-
-        {userName && (
-          <div className="max-w-5xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-              <Card
-                userName={userName}
-                textHelper={"Sesión como invitado"}
-                icon={<FaUser />}
-              />
-
-              <Card
-                userName={"aciertos"}
-                textHelper={"Conteo de aciertos"}
-                icon={<FaCheck />}
-              />
-
-              <Card
-                userName={"errores"}
-                textHelper={"Conteo de errores"}
-                icon={<FaXmark />}
-              />
             </div>
           </div>
         )}

@@ -1,7 +1,6 @@
-const Card = ({ userName, textHelper, icon }) => {
+const Card = ({ name, textHelper, icon, count }) => {
   return (
     <>
-      {/* Card */}
       <div className="p-4 md:p-5 bg-slate-900 rounded-lg">
         <div className="flex">
           <div className="mt-1 flex-shrink-0 w-5 h-5 text-gray-800 dark:text-gray-200">
@@ -10,13 +9,15 @@ const Card = ({ userName, textHelper, icon }) => {
 
           <div className="grow ms-5">
             <h3 className="group-hover:text-blue-600 font-semibold text-gray-800 dark:group-hover:text-gray-400 dark:text-gray-200">
-              {userName.toUpperCase()}
+              {name.toUpperCase()}
             </h3>
-            <p className="text-sm text-gray-500">{textHelper}</p>
+            <p className="text-sm text-gray-500">
+              <span className="font-bold mr-1 text-green-400">{count}</span>
+              {`${textHelper}`}
+              </p>
           </div>
         </div>
       </div>
-      {/* End Card  */}
     </>
   );
 };
